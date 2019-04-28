@@ -69,7 +69,7 @@ public class ProjectDetailsMyBatis {
     @Transactional
     public String addEmployeeToProject() {
         Employee emp = employeeMapper.findByFullName(selectedEmployee);
-
+        System.out.println("DARBUOTOJAS" + emp.toString());
         EmployeeProject ep = new EmployeeProject();
         ep.setEmployeeId(emp.getId());
         ep.setProjectId(project.getId());

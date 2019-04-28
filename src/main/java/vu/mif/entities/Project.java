@@ -35,11 +35,9 @@ public class Project implements Serializable {
     private BigDecimal worth;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "Employee_Project", joinColumns = {
-            @JoinColumn(name="employee_id", referencedColumnName = "ID")
-    }, inverseJoinColumns = {
-            @JoinColumn(name="project_id", referencedColumnName = "ID")
-    })
+    @JoinTable(name = "EMPLOYEE_PROJECT",
+            joinColumns = @JoinColumn(name="PROJECT_ID"),
+            inverseJoinColumns = @JoinColumn(name="EMPLOYEE_ID"))
     private Set<Employee> employeeList = new HashSet<>();
 
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)

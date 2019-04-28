@@ -47,7 +47,7 @@
         <c:when test="#{projectDetailsMyBatis.project.employees.size()>0}">
             <ol>
                 <ui:repeat value="#{projectDetailsMyBatis.project.employees}" var="employee">
-                    <li><h:link value="#{employee.firstname + ' ' + employee.lastname}" outcome="employeeProjects?employeeId=#{employee.id}"/></li>
+                    <li><h:link value="#{employee.toString()}" outcome="employeeProjects?employeeId=#{employee.id}"/></li>
                 </ui:repeat>
             </ol>
         </c:when>

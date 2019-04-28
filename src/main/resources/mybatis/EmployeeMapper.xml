@@ -73,7 +73,7 @@
     from PUBLIC.EMPLOYEE
   </select>
   <select id="findByFullName" parameterType="java.lang.String" resultType="Employee">
-    select ID,FIRSTNAME,LASTNAME,SALARY
+    select *
     from PUBLIC.EMPLOYEE c WHERE c.FIRSTNAME || ' ' || c.LASTNAME = #{fullname}
   </select>
 </mapper>
