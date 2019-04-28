@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Company Employees</title>
+</h:head>
+<h:body>
+<h2>Company employees: </h2>
+<c:choose>
+    <c:when test="#{employeesMyBatis.allEmployees.size() > 0}">
+        <ol>
+            <ui:repeat value="#{employeesMyBatis.getAllEmployees()}" var="employee">
+                <li><h:link value="#{employee.toString()}" outcome="employeeProjects?employeeId=#{employee.id.toString()}" />
+                    <ul>
+                        <li>First Name: #{employee.getFirstname()}</li>
+                        <li>Last Name: #{employee.getLastname()}</li>
+                        <li>Salary: #{employee.getSalary().toString()}</li>
+                    </ul>
+                </li>
+            </ui:repeat>
+        </ol>
+    </c:when>
+    <c:otherwise>
+        <h3>There are currently no employees. Create one.</h3>
+    </c:otherwise>
+</c:choose>
+<h:form>
+    <h:panelGrid id="grid" columns="2" cellpadding="5">
+        <p:outputLabel for="firstname" value="First Name:" />
+        <p:inputText id="firstname" value="#{employeesMyBatis.employeeToCreate.firstname}" required="true" />
+        <p:outputLabel for="lastname" value="Last Name:" />
+        <p:inputText id="lastname" value="#{employeesMyBatis.employeeToCreate.lastname}" required="true" />
+        <p:outputLabel for="salary" value="Salary:" />
+        <p:inputNumber id="salary" value="#{employeesMyBatis.employeeToCreate.salary}" required="true" />
+    </h:panelGrid>
+    <p:commandButton action="#{employeesMyBatis.createEmployee}" value="Add new Employee" style="margin-right:20px;" update="grid">
+    </p:commandButton>
+</h:form>
+<h:link value="Homepage" outcome="index"></h:link>
+</h:body>
+</html>

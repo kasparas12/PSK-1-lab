@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head/>
+<h:body>
+    <h2>#{projectDetails.project.name} Project</h2>
+
+    <h3>Project stages:</h3>
+    <c:choose>
+        <c:when test="#{projectDetails.project.projectStages.size()>0}">
+            <ol>
+                <ui:repeat value="#{projectDetails.project.projectStages}" var="stage">
+                    <li>
+                        <ul>
+                            <li>Stage name: #{stage.name}</li>
+                            <li>Stage start date: #{stage.startDate}</li>
+                            <li>Stage end date:#{stage.endDate} </li>
+                        </ul>
+                    </li>
+                </ui:repeat>
+            </ol>
+        </c:when>
+        <c:otherwise>
+            <span>This project currently has no stages</span>
+        </c:otherwise>
+    </c:choose>
+    <h:form>
+        <h:panelGrid id="grid" columns="2" cellpadding="5">
+            <p:outputLabel for="stageName" value="Stage Name:" />
+            <p:inputText id="stageName" value="#{projectDetails.projectStageToCreate.name}" required="true" />
+            <p:outputLabel for="stageStart" value="Stage Start Date:" />
+            <p:calendar id="stageStart" value="#{projectDetails.projectStageToCreate.startDate}" label="Stage Start Date:" pattern="yyyy-MM-dd"/>
+            <p:outputLabel for="stageEnd" value="Stage End Date:" />
+            <p:calendar id="stageEnd" value="#{projectDetails.projectStageToCreate.endDate}" label="Stage End Date:" pattern="yyyy-MM-dd"/>
+        </h:panelGrid>
+        <p:commandButton action="#{projectDetails.createStageToProject}" value="Add new Stage to project" style="margin-right:20px;" update="grid">
+            <f:param name="projectId" value="#{projectDetails.project.id}" />
+        </p:commandButton>
+    </h:form>
+    <h3>Project employees:</h3>
+    <c:choose>
+        <c:when test="#{projectDetails.project.employeeList.size()>0}">
+            <ol>
+                <ui:repeat value="#{projectDetails.project.employeeList}" var="employee">
+                    <li><h:link value="#{employee.toString()}" outcome="employeeProjects?employeeId=#{employee.id}"/></li>
+                </ui:repeat>
+            </ol>
+        </c:when>
+        <c:otherwise>
+            <span>This project currently has no employees</span>
+        </c:otherwise>
+    </c:choose>
+    <h:form>
+    <h:panelGrid id="employees" columns="2" cellpadding="5">
+        <p:outputLabel for="employee" value="Employee: " />
+        <p:selectOneMenu id="employee" value="#{projectDetails.selectedEmployee}" style="width:150px">
+            <p:ajax listener="#{projectDetails.onEmployeeChange}" update="employees" />
+            <f:selectItem itemLabel="Select Employee" itemValue="" noSelectionOption="true" />
+            <f:selectItems value="#{projectDetails.allEmployees}" />
+        </p:selectOneMenu>
+    </h:panelGrid>
+    <p:commandButton action="#{projectDetails.addEmployeeToProject}" value="Add Employee to Project" style="margin-right:20px;" update="employees">
+        <f:param name="projectId" value="#{projectDetails.project.id}" />
+    </p:commandButton>
+    </h:form>
+</h:body>
+</html>

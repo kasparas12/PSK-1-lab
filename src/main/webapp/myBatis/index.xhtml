@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Company Projects Page</title>
+</h:head>
+<h:body>
+    <h2>Current Projects: </h2>
+    <c:choose>
+        <c:when test="#{projectsMyBatis.allProjects.size() > 0}">
+            <ol>
+                <ui:repeat value="#{projectsMyBatis.allProjects}" var="project">
+                    <li><h:link value="#{project.name}" outcome="projects?projectId=#{project.id}" />
+                        <ol>
+                            <li>Project worth: #{project.worth} EUR</li>
+                            <li>Project start date: #{project.startdate}</li>
+                            <li>Current employees in project: #{project.employees.size()}</li>
+                        </ol>
+                    </li>
+                </ui:repeat>
+            </ol>
+        </c:when>
+        <c:otherwise>
+            <h3>There are currently no projects. Create one.</h3>
+        </c:otherwise>
+    </c:choose>
+    <h:form>
+        <h:panelGrid id="grid" columns="2" cellpadding="5">
+            <p:outputLabel for="projectName" value="Project Name:" />
+            <p:inputText id="projectName" value="#{projectsMyBatis.projectToCreate.name}" required="true" />
+            <p:outputLabel for="projectWorth" value="Project Worth:" />
+            <p:inputNumber id="projectWorth" value="#{projectsMyBatis.projectToCreate.worth}" required="true" />
+
+            <p:outputLabel for="startDate" value="Start Date:" />
+            <p:calendar id="startDate" value="#{projectsMyBatis.projectToCreate.startdate}" label="Start Date:" pattern="yyyy-MM-dd"/>
+        </h:panelGrid>
+        <p:commandButton action="#{projectsMyBatis.createProject}" value="Add new project" style="margin-right:20px;" update="grid">
+        </p:commandButton>
+    </h:form>
+    <h:link value="Employees of company" outcome="/myBatis/employees"></h:link><br/>
+    <h:link outcome="/index.xhtml" value="JPA implementation"/>
+</h:body>
+</html>

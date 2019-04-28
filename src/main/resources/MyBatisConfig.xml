@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias type="vu.mif.mybatis.model.Employee" alias="Employee"/>
+        <typeAlias type="vu.mif.mybatis.model.Project" alias="Project"/>
+        <typeAlias type="vu.mif.mybatis.model.Stage" alias="Stage"/>
+        <typeAlias type="vu.mif.mybatis.model.EmployeeProject" alias="EmployeeProject" />
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="MANAGED"/>
+            <dataSource type="JNDI">
+                <property name="data_source" value="openejb:Resource/ProjectManagementDataSource"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mybatis/EmployeeMapper.xml"/>
+        <mapper resource="mybatis/ProjectMapper.xml"/>
+        <mapper resource="mybatis/StageMapper.xml"/>
+        <mapper resource="mybatis/EmployeeProjectMapper.xml"/>
+    </mappers>
+</configuration>

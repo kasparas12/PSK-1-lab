@@ -2,15 +2,47 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core">
 
->
-<h:head/>
+<h:head>
+    <title>Company Projects Page</title>
+</h:head>
 <h:body>
-    <h2>Players: </h2>
+    <h2>Current Projects: </h2>
+    <c:choose>
+    <c:when test="#{projects.allProjects.size() > 0}">
     <ol>
-        <ui:repeat value="#{players.allPlayers}" var="player">
-            <li>#{player.name}</li>
+        <ui:repeat value="#{projects.allProjects}" var="project">
+            <li><h:link value="#{project.name}" outcome="projects?projectId=#{project.id}" />
+                <ol>
+                    <li>Project worth: #{project.worth} EUR</li>
+                    <li>Project start date: #{project.startDate}</li>
+                    <li>Current employees in project: #{project.employeeList.size()}</li>
+                </ol>
+            </li>
         </ui:repeat>
     </ol>
+    </c:when>
+    <c:otherwise>
+        <h3>There are currently no projects. Create one.</h3>
+    </c:otherwise>
+    </c:choose>
+    <h:form>
+        <h:panelGrid id="grid" columns="2" cellpadding="5">
+            <p:outputLabel for="projectName" value="Project Name:" />
+            <p:inputText id="projectName" value="#{projects.projectToCreate.name}" required="true" />
+            <p:outputLabel for="projectWorth" value="Project Worth:" />
+            <p:inputNumber id="projectWorth" value="#{projects.projectToCreate.worth}" required="true" />
+
+            <p:outputLabel for="startDate" value="Start Date:" />
+            <p:calendar id="startDate" value="#{projects.projectToCreate.startDate}" label="Start Date:" pattern="yyyy-MM-dd"/>
+        </h:panelGrid>
+        <p:commandButton action="#{projects.createProject}" value="Add new project" style="margin-right:20px;" update="grid">
+        </p:commandButton>
+    </h:form>
+    <h:link value="Employees of company" outcome="employees"></h:link><br/>
+    <h:link outcome="/myBatis/index.xhtml" value="MyBatis implementation"/>
 </h:body>
 </html>

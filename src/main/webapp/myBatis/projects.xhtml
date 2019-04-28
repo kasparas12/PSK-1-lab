@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head/>
+<h:body>
+    <h2>#{projectDetailsMyBatis.project.name} Project</h2>
+
+    <h3>Project stages:</h3>
+    <c:choose>
+        <c:when test="#{projectDetailsMyBatis.project.stages.size()>0}">
+            <ol>
+                <ui:repeat value="#{projectDetailsMyBatis.project.stages}" var="stage">
+                    <li>
+                        <ul>
+                            <li>Stage name: #{stage.name}</li>
+                            <li>Stage start date: #{stage.startdate}</li>
+                            <li>Stage end date:#{stage.enddate} </li>
+                        </ul>
+                    </li>
+                </ui:repeat>
+            </ol>
+        </c:when>
+        <c:otherwise>
+            <span>This project currently has no stages</span>
+        </c:otherwise>
+    </c:choose>
+    <h:form>
+        <h:panelGrid id="grid" columns="2" cellpadding="5">
+            <p:outputLabel for="stageName" value="Stage Name:" />
+            <p:inputText id="stageName" value="#{projectDetailsMyBatis.projectStageToCreate.name}" required="true" />
+            <p:outputLabel for="stageStart" value="Stage Start Date:" />
+            <p:calendar id="stageStart" value="#{projectDetailsMyBatis.projectStageToCreate.startdate}" label="Stage Start Date:" pattern="yyyy-MM-dd"/>
+            <p:outputLabel for="stageEnd" value="Stage End Date:" />
+            <p:calendar id="stageEnd" value="#{projectDetailsMyBatis.projectStageToCreate.enddate}" label="Stage End Date:" pattern="yyyy-MM-dd"/>
+        </h:panelGrid>
+        <p:commandButton action="#{projectDetailsMyBatis.createStageToProject}" value="Add new Stage to project" style="margin-right:20px;" update="grid">
+            <f:param name="projectId" value="#{projectDetailsMyBatis.project.id}" />
+        </p:commandButton>
+    </h:form>
+    <h3>Project employees:</h3>
+    <c:choose>
+        <c:when test="#{projectDetailsMyBatis.project.employees.size()>0}">
+            <ol>
+                <ui:repeat value="#{projectDetailsMyBatis.project.employees}" var="employee">
+                    <li><h:link value="#{employee.firstname + ' ' + employee.lastname}" outcome="employeeProjects?employeeId=#{employee.id}"/></li>
+                </ui:repeat>
+            </ol>
+        </c:when>
+        <c:otherwise>
+            <span>This project currently has no employees</span>
+        </c:otherwise>
+    </c:choose>
+    <h:form>
+    <h:panelGrid id="employees" columns="2" cellpadding="5">
+        <p:outputLabel for="employee" value="Employee: " />
+        <p:selectOneMenu id="employee" value="#{projectDetailsMyBatis.selectedEmployee}" style="width:150px">
+            <f:selectItem itemLabel="Select Employee" itemValue="" noSelectionOption="true" />
+            <f:selectItems value="#{projectDetailsMyBatis.allEmployees}" />
+        </p:selectOneMenu>
+    </h:panelGrid>
+    <p:commandButton action="#{projectDetailsMyBatis.addEmployeeToProject}" value="Add Employee to Project" style="margin-right:20px;" update="employees">
+        <f:param name="projectId" value="#{projectDetailsMyBatis.project.id}" />
+    </p:commandButton>
+    </h:form>
+</h:body>
+</html>
