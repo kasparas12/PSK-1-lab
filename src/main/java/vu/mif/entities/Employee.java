@@ -33,6 +33,9 @@ public class Employee implements Serializable {
     @Column(name="Salary")
     private BigDecimal salary;
 
+    @Version
+    @Column(name = "OPT_LOCK_VERSION")
+    private Integer version;
 
     @ManyToMany(mappedBy = "employeeList", fetch = FetchType.EAGER)
     private Set<Project> projectList = new HashSet<>();

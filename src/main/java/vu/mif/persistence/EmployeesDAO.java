@@ -5,6 +5,7 @@ import lombok.Setter;
 import vu.mif.entities.Employee;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @ApplicationScoped
 @Getter @Setter
 public class EmployeesDAO {
+
     @PersistenceContext
     private EntityManager em;
 

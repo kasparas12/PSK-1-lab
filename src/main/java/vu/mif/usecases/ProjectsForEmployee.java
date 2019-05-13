@@ -6,14 +6,23 @@ import vu.mif.entities.Employee;
 import vu.mif.persistence.EmployeesDAO;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.OptimisticLockException;
+import javax.transaction.Transactional;
+import java.io.Serializable;
 import java.util.Map;
 
-@Model
-public class ProjectsForEmployee {
+@ViewScoped
+@Named
+@Getter @Setter
+public class ProjectsForEmployee implements Serializable {
 
+    public ProjectsForEmployee() {
+
+    }
     @Getter @Setter
     private Employee employee;
 
@@ -27,5 +36,15 @@ public class ProjectsForEmployee {
 
         Integer employeeId = Integer.parseInt(requestParameters.get("employeeId"));
         this.employee = employeesDAO.getById(employeeId);
+    }
+
+    @Transactional
+    public String UpdateEmployee() {
+        try {
+            this.employeesDAO.merge(this.employee);
+        } catch (OptimisticLockException e) {
+            return "/employeeProjects.xhtml?faces-redirect=true&employeeId=" + this.employee.getId() + "&error=optimistic-lock-exception";
+        }
+        return "/employeeProjects.xhtml?faces-redirect=true&employeeId=" + this.employee.getId();
     }
 }
