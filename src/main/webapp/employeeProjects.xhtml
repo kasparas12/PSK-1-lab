@@ -30,6 +30,15 @@
         </h:commandButton>
         <h:outputText value="Value was already modified by other user. If you want to override it - try again" rendered="#{param['error'] == 'optimistic-lock-exception'}" />
     </h:form>
+    <br/>
+    <h:form>
+        <h:commandButton value="Propose employee salary?" disabled="#{proposeEmployeeSalary.isSalaryStillGenerating()}" action="#{proposeEmployeeSalary.generateNewSalaryProposal()}">
+            <f:param name="employeeId" value="#{projectsForEmployee.employee.id}" />
+        </h:commandButton>
+        <br/>
+        <br/>
+        <h:outputText value="#{proposeEmployeeSalary.getSalaryGenerationStatus()}" /><br/>
+    </h:form>
     <h:link value="Homepage" outcome="index"></h:link>
 </h:body>
 </html>

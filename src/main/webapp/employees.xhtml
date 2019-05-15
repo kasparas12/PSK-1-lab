@@ -39,6 +39,9 @@
     <p:commandButton action="#{employees.createEmployee}" value="Add new Employee" style="margin-right:20px;" update="grid">
     </p:commandButton>
 </h:form>
+    <h:panelGrid rendered="#{employees.error == 'minimum-salary-error'}" id="grid2" columns="2" cellpadding="5">
+        <p:outputLabel>Salary cannot be less than defined minimal wage</p:outputLabel>
+    </h:panelGrid>
 <h:link value="Homepage" outcome="index"></h:link>
 </h:body>
 </html>

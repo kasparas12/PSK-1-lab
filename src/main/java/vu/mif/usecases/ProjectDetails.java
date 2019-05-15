@@ -5,6 +5,7 @@ import lombok.Setter;
 import vu.mif.entities.Employee;
 import vu.mif.entities.Project;
 import vu.mif.entities.Stage;
+import vu.mif.interfaces.IEmployeesDAO;
 import vu.mif.persistence.EmployeesDAO;
 import vu.mif.persistence.ProjectsDAO;
 import vu.mif.persistence.StagesDAO;
@@ -27,7 +28,7 @@ public class ProjectDetails {
     private StagesDAO stagesDAO;
 
     @Inject
-    private EmployeesDAO employeesDAO;
+    private IEmployeesDAO employeesDAO;
 
     @Getter @Setter
     private String selectedEmployee;

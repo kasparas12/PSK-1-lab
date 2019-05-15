@@ -3,6 +3,7 @@ package vu.mif.usecases;
 import lombok.Getter;
 import lombok.Setter;
 import vu.mif.entities.Employee;
+import vu.mif.interfaces.IEmployeesDAO;
 import vu.mif.persistence.EmployeesDAO;
 
 import javax.annotation.PostConstruct;
@@ -27,7 +28,7 @@ public class ProjectsForEmployee implements Serializable {
     private Employee employee;
 
     @Inject
-    private EmployeesDAO employeesDAO;
+    private IEmployeesDAO employeesDAO;
 
     @PostConstruct
     public void init() {
